@@ -5,4 +5,3 @@ dist/
 assets/MyMoneroLibAppCpp_WASM.js
 assets/MyMoneroLibAppCpp_WASM.wasm
 *.DS_Store
-.env
