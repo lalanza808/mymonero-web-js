@@ -1,20 +1,23 @@
-FROM node:16-alpine
+# Create multi stage nginx docker image
+# Build the app
+FROM node:16-alpine as build
 
-# set workdir to /app
 WORKDIR /app
-
 COPY . .
-
-# install dependencies
 RUN npm install
-
-# SET ENVIRONMENT DEFAULTS IF NOT SET
-ENV NETTYPE=0
-ENV SERVER_URL=https://localhost
-ENV APP_NAME=MyMonero-Self-Hosted
-
 RUN npm run build
 
-EXPOSE 9110
+# Create nginx image
+FROM nginx:1.23-bullseye
+COPY --from=build --chown=nginx:nginx /app/docker/entrypoint.sh /docker-entrypoint.d/entrypoint.sh
+RUN touch /usr/share/nginx/html/env_config.js
+RUN chown nginx:nginx /usr/share/nginx/html/env_config.js
 
-CMD ["node", "server.js"]
+COPY --from=build /app/dist /usr/share/nginx/html/dist
+COPY --from=build /app/assets /usr/share/nginx/html/assets
+COPY --from=build /app/index.html /usr/share/nginx/html
+COPY ./src/assets /usr/share/nginx/html/src/assets
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

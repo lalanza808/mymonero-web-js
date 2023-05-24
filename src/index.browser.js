@@ -5,13 +5,12 @@ import './assets/css/clear.browser.css'
 
 window.BootApp = async function () { // encased in a function to prevent scope being lost/freed on mobile
   const coreBridgeInstance = await require('@mymonero/mymonero-app-bridge')({})
-  console.log(process.env.NETTYPE)
   const isMobile = ('ontouchstart' in document.documentElement) // an approximation for 'mobile'
   const config = {
-    nettype: parseInt(process.env.NETTYPE), // critical setting 0 - MAINNET, 2 - STAGENET
-    apiUrl: process.env.SERVER_URL,
-    version: process.env.APP_VERSION,
-    name: process.env.APP_NAME,
+    nettype: parseInt(window._env_.MYMONERO_WEB_NETTYPE) || 0, // critical setting 0 - MAINNET, 2 - STAGENET
+    apiUrl: window._env_.MYMONERO_WEB_SERVER_URL || localhost,
+    version: "1.3.2",
+    name: "MyMonero-Self-Hosted",
     isDebug: false,
     isMobile: isMobile,
     TabBarView_thickness: isMobile ? 48 : 79,
