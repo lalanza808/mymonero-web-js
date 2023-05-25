@@ -3,12 +3,34 @@
 import './assets/css/styles.css'
 import './assets/css/clear.browser.css'
 
+const includesMyMoneroAPI = (url) => {
+  // regex to check for mymonero.com in url
+  const regex = /mymonero\.com/
+  return regex.test(url)
+}
+
+const getServerUrl = () => {
+  const url = window._env_.MYMONERO_WEB_SERVER_URL
+  if (!url) {
+    console.log("No server URL set. Setting URL to localhost.")
+    return localhost
+  }
+
+  if (includesMyMoneroAPI(url)) {
+    console.log("Centralized Light Wallet API detected. Don't do that. Self-Host your own Monero Light Wallet Server using: https://github.com/vtnerd/monero-lws/ Setting URL to localhost in the meantime.")
+    return localhost
+  }
+
+  console.log("Server URL set to: " + url)
+  return url
+}
+
 window.BootApp = async function () { // encased in a function to prevent scope being lost/freed on mobile
   const coreBridgeInstance = await require('@mymonero/mymonero-app-bridge')({})
   const isMobile = ('ontouchstart' in document.documentElement) // an approximation for 'mobile'
   const config = {
     nettype: parseInt(window._env_.MYMONERO_WEB_NETTYPE) || 0, // critical setting 0 - MAINNET, 2 - STAGENET
-    apiUrl: window._env_.MYMONERO_WEB_SERVER_URL || localhost,
+    apiUrl: getServerUrl(),
     version: "1.3.2",
     name: "MyMonero-Self-Hosted",
     isDebug: false,
