@@ -13,12 +13,12 @@ const getServerUrl = () => {
   const url = window._env_.MYMONERO_WEB_SERVER_URL
   if (!url) {
     console.log("No server URL set. Setting URL to localhost.")
-    return localhost
+    return "localhost"
   }
 
   if (includesMyMoneroAPI(url)) {
     console.log("Centralized Light Wallet API detected. Don't do that. Self-Host your own Monero Light Wallet Server using: https://github.com/vtnerd/monero-lws/ Setting URL to localhost in the meantime.")
-    return localhost
+    return "localhost"
   }
 
   console.log("Server URL set to: " + url)
