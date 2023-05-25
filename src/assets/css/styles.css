@@ -2564,10 +2564,11 @@ div.customSelect {}
 }
 
 .tabButton-exchange {
-  background-image: url('../img/XMRtoBTCInactive.svg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 39px;
+  display: none;
+  /* background-image: url('../img/XMRtoBTCInactive.svg'); */
+  /* background-position: center; */
+  /* background-repeat: no-repeat; */
+  /* background-size: 39px; */
 }
 
 .tabButton-exchange-selected {
