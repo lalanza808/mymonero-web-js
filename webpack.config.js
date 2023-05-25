@@ -1,7 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
 const CopyPlugin = require('copy-webpack-plugin')
-const Dotenv = require('dotenv-webpack')
 
 module.exports = {
   entry: './src/index.browser.js',
@@ -38,9 +37,6 @@ module.exports = {
         { from: '*.svg', to: '../dist/assets/img', context: path.resolve(__dirname, 'src', 'assets/img') }
       ]
     }),
-    new Dotenv({
-      defaults: true
-    })
   ],
   resolve: {
     // alias: {
